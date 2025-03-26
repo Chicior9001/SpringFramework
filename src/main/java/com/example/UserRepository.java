@@ -3,9 +3,9 @@ package com.example;
 import java.io.*;
 import java.util.ArrayList;
 
-public class UserRepo implements IUserRepository {
+public class UserRepository implements IUserRepository {
     private final ArrayList<User> users = new ArrayList<>();
-    public UserRepo() {
+    public UserRepository() {
         load();
     }
 

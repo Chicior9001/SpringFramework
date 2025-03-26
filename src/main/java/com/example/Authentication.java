@@ -1,5 +1,7 @@
 package com.example;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class Authentication {
     private IUserRepository userRepository;
 
@@ -9,7 +11,7 @@ public class Authentication {
 
     public User authenticate(String login, String password) {
         User user = userRepository.getUser(login);
-        if(user != null && user.getPassword().equals(password)) {
+        if(user != null && user.getPassword().equals(DigestUtils.sha256Hex(password))) {
             return user;
         }
         return null;

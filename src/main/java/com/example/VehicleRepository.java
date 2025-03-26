@@ -3,10 +3,10 @@ package com.example;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Repository implements IVehicleRepository {
+public class VehicleRepository implements IVehicleRepository {
     private final ArrayList<Vehicle> vehicles = new ArrayList<>();
 
-    public Repository() {
+    public VehicleRepository() {
         load();
     }
 
@@ -53,6 +53,11 @@ public class Repository implements IVehicleRepository {
         }
 
         return copy;
+    }
+
+    @Override
+    public Vehicle getVehicle(int id) {
+        return vehicles.get(id).clone();
     }
 
     @Override
