@@ -14,7 +14,7 @@ public class VehicleJsonRepository implements VehicleRepository {
     private final JsonFileStorage<Vehicle> storage = new JsonFileStorage<>("vehicles.json", new TypeToken<List<Vehicle>>(){}.getType());
     private final List<Vehicle> vehicles;
 
-    public VehicleJsonRepository(List<Vehicle> vehicles) {
+    public VehicleJsonRepository() {
         this.vehicles = new ArrayList<>(storage.load());
     }
 
@@ -39,6 +39,26 @@ public class VehicleJsonRepository implements VehicleRepository {
         storage.save(vehicles);
         return vehicle;
     }
+
+    /*@Override
+    public Vehicle update(Vehicle vehicle) {
+        if(vehicle.getId() == null || vehicle.getId().isBlank()) {
+            int nextId = 1;
+            if (!vehicles.isEmpty()) {
+                nextId = vehicles.stream()
+                        .mapToInt(v -> Integer.parseInt(v.getId()))
+                        .max()
+                        .orElse(0)
+                        + 1;
+            }
+            vehicle.setId(String.valueOf(nextId));
+        } else {
+            deleteById(vehicle.getId());
+        }
+        vehicles.add(vehicle);
+        storage.save(vehicles);
+        return vehicle;
+    }*/
 
     @Override
     public void deleteById(String id) {
