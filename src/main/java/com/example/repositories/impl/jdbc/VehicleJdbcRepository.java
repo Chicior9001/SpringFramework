@@ -81,6 +81,61 @@ public class VehicleJdbcRepository implements VehicleRepository {
     public Vehicle save(Vehicle vehicle) {
         if (vehicle.getId() == null || vehicle.getId().isBlank()) {
             vehicle.setId(UUID.randomUUID().toString());
+        } else {
+            String selectSql = "SELECT * FROM vehicle WHERE id = ?";
+            try (Connection connection = JdbcConnectionManager.getInstance().getConnection();
+                 PreparedStatement selectStmt = connection.prepareStatement(selectSql)) {
+
+                selectStmt.setString(1, vehicle.getId());
+                try (ResultSet rs = selectStmt.executeQuery()) {
+                    if (rs.next()) {
+                        String updateSql = "UPDATE vehicle SET category = ?, brand = ?, model = ?, year = ?, plate = ?, price = ?, attributes = ?::jsonb WHERE id = ?";
+                        try (PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
+                            updateStmt.setString(1, vehicle.getCategory());
+                            updateStmt.setString(2, vehicle.getBrand());
+                            updateStmt.setString(3, vehicle.getModel());
+                            updateStmt.setInt(4, vehicle.getYear());
+                            updateStmt.setString(5, vehicle.getPlate());
+                            updateStmt.setDouble(6, vehicle.getPrice());
+                            updateStmt.setString(7, gson.toJson(vehicle.getAttributes()));
+                            updateStmt.setString(8, vehicle.getId());
+
+                            updateStmt.executeUpdate();
+                        } catch (SQLException e) {
+                            throw new RuntimeException("Error occurred while updating vehicle", e);
+                        }
+                    } else {
+                        String insertSql = "INSERT INTO vehicle (id, category, brand, model, year, plate, price, attributes) VALUES (?, ?, ?, ?, ?, ?, ?, ?::jsonb)";
+                        try (PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
+                            insertStmt.setString(1, vehicle.getId());
+                            insertStmt.setString(2, vehicle.getCategory());
+                            insertStmt.setString(3, vehicle.getBrand());
+                            insertStmt.setString(4, vehicle.getModel());
+                            insertStmt.setInt(5, vehicle.getYear());
+                            insertStmt.setString(6, vehicle.getPlate());
+                            insertStmt.setDouble(7, vehicle.getPrice());
+                            insertStmt.setString(8, gson.toJson(vehicle.getAttributes()));
+
+                            insertStmt.executeUpdate();
+                        } catch (SQLException e) {
+                            throw new RuntimeException("Error occurred while inserting vehicle", e);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Error occurred while saving vehicle", e);
+            }
+        }
+
+        return vehicle;
+    }
+
+
+
+    /*@Override
+    public Vehicle save(Vehicle vehicle) {
+        if (vehicle.getId() == null || vehicle.getId().isBlank()) {
+            vehicle.setId(UUID.randomUUID().toString());
         //TODO:Zamiast usuwania dopisać sprawdzenie czy jest id w tabeli, jak tak zrobić sql update,jak nie-wstawic nowy pojazd
         } else {
             deleteById(vehicle.getId());
@@ -104,7 +159,7 @@ public class VehicleJdbcRepository implements VehicleRepository {
             throw new RuntimeException("Error occurred while saving vehicle", e);
         }
         return vehicle;
-    }
+    }*/
 
     @Override
     public void deleteById(String id) {
