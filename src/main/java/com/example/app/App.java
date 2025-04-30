@@ -270,58 +270,64 @@ public class App {
         Map<String, Object> attributes = new HashMap<>();
         String key = "";
         String value = "";
+        double price = 0.0;
 
         boolean processing = true;
         while(processing) {
             System.out.println("\nDodawanie nowego pojazdu:");
-            System.out.println("1. Kategoria: " + category);
-            System.out.println("2. Marka: " + brand);
-            System.out.println("3. Model: " + model);
-            System.out.println("4. Rocznik: " + (year == 0 ? "" : year));
-            System.out.println("5. Numer rejestracyjny: " + plate);
-            System.out.println("6. Dodaj atrybut: " + attributes);
-            System.out.println("7. Usuń atrybut");
-            System.out.println("8. Zakończ");
-            System.out.println("9. Anuluj: ");
+            System.out.println("1. Cena:" + price);
+            System.out.println("2. Kategoria: " + category);
+            System.out.println("3. Marka: " + brand);
+            System.out.println("4. Model: " + model);
+            System.out.println("5. Rocznik: " + (year == 0 ? "" : year));
+            System.out.println("6. Numer rejestracyjny: " + plate);
+            System.out.println("7. Dodaj atrybut: " + attributes);
+            System.out.println("8. Usuń atrybut");
+            System.out.println("9. Zakończ");
+            System.out.println("0. Anuluj: ");
             System.out.print("Wybierz opcję: ");
 
             String choice = scanner.nextLine();
             switch (choice) {
                 case "1":
+                    System.out.println("Podaj cenę: ");
+                    price = Double.parseDouble(scanner.nextLine());
+                    break;
+                case "2":
                     System.out.println("Podaj kategorię: ");
                     category = scanner.nextLine();
                     break;
-                case "2":
+                case "3":
                     System.out.println("Podaj markę: ");
                     brand = scanner.nextLine();
                     break;
-                case "3":
+                case "4":
                     System.out.println("Podaj model: ");
                     model = scanner.nextLine();
                     break;
-                case "4":
+                case "5":
                     System.out.println("Podaj rocznik: ");
                     year = scanner.nextInt();
                     scanner.nextLine();
                     break;
-                case "5":
+                case "6":
                     System.out.println("Podaj numer rejestracyjny: ");
                     plate = scanner.nextLine();
                     break;
-                case "6":
+                case "7":
                     System.out.println("Podaj nazwę atrybutu: ");
                     key = scanner.nextLine();
                     System.out.println("Podaj wartość atrybutu: ");
                     value = scanner.nextLine();
                     attributes.put(key, value);
                     break;
-                case "7":
+                case "8":
                     System.out.println("Podaj nazwę atrybutu do usunięcia: ");
                     key = scanner.nextLine();
                     attributes.remove(key);
                     System.out.println("Pomyślnie usunięto atrybut " + key);
                     break;
-                case "8":
+                case "9":
                     Vehicle newVehicle = Vehicle.builder()
                             .category(category)
                             .brand(brand)
@@ -335,7 +341,7 @@ public class App {
                     System.out.println("Pojazd dodany pomyślnie.");
                     processing = false;
                     break;
-                case "9":
+                case "0":
                     System.out.println("Anulowano dodawanie pojazdu.");
                     processing = false;
                     break;

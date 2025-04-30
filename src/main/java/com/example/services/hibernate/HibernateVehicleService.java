@@ -79,8 +79,10 @@ public class HibernateVehicleService implements VehicleService {
     @Override
     public void deleteVehicle(String id) {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
             vehicleRepo.setSession(session);
             vehicleRepo.deleteById(id);
+            tx.commit();
         }
     }
 }
