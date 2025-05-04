@@ -6,6 +6,7 @@ import com.example.repositories.UserRepository;
 import com.example.repositories.impl.hibernate.UserHibernateRepository;
 import com.example.services.AuthService;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class HibernateAuthService implements AuthService {
     @Override
     public boolean register(String login, String rawPassword, String role) {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
             userRepo.setSession(session);
 
             if(userRepo.findByLogin(login).isPresent()) {
@@ -44,6 +46,7 @@ public class HibernateAuthService implements AuthService {
                     .build();
 
             userRepo.save(user);
+            tx.commit();
             return true;
         }
     }
