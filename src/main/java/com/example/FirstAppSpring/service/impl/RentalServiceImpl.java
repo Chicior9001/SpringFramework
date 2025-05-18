@@ -66,16 +66,16 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public boolean returnRental(String vehicleId, String userId) {
+    public Rental returnRental(String vehicleId, String userId) {
         if(!isVehicleRented(vehicleId)) {
-            return false;
+            return null;
         }
 
         Rental rental = rentalRepository.findByVehicleIdAndUserIdAndReturnDateIsNull(vehicleId, userId)
                 .orElseThrow(() -> new EntityNotFoundException("Rental not found."));
         rental.setReturnDate(LocalDateTime.now());
         rentalRepository.save(rental);
-        return true;
+        return rental;
     }
 
     @Override

@@ -75,7 +75,13 @@ public class VehicleServiceImpl implements VehicleService {
         if(rentalRepository.existsByVehicleIdAndReturnDateIsNull(id)) {
             throw new IllegalStateException("Vehicle " + id + " is rented.");
         }
-        vehicleRepository.findByIdAndIsActiveTrue(id).ifPresent(vehicle -> vehicle.setActive(false));
+        Optional<Vehicle> vehicle = vehicleRepository.findByIdAndIsActiveTrue(id);
+        if(vehicle.isEmpty()) {
+            throw new IllegalStateException("Vehicle " + id + " not found.");
+        } else {
+            vehicle.get().setActive(false);
+            vehicleRepository.save(vehicle.get());
+        }
         //vehicleRepository.deleteById(id);
     }
 }
