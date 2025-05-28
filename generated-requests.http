@@ -10,8 +10,8 @@ POST {{baseUrl}}/api/auth/login
 Content-Type: {{contentType}}
 
 {
-  "login": "lukasz",
-  "password": "lukasz123"
+  "login": "kamil",
+  "password": "kamil123"
 }
 
 > {%
@@ -27,17 +27,22 @@ Content-Type: {{contentType}}
   "password": ""
 }
 
-### Get all rentals
+### Get all rentals (ADMIN)
 GET {{baseUrl}}/api/rentals
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get all active rentals
+### Get all active rentals (ADMIN)
 GET {{baseUrl}}/api/rentals/active
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Rent
+### Get my active rentals (USER, ADMIN)
+GET {{baseUrl}}/api/rentals/rented
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Rent (USER, ADMIN)
 POST {{baseUrl}}/api/rentals/rent
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
@@ -46,7 +51,7 @@ Authorization: Bearer {{auth_token}}
   "vehicleId": "2"
 }
 
-### Return
+### Return (USER, ADMIN)
 POST {{baseUrl}}/api/rentals/return
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
@@ -55,44 +60,44 @@ Authorization: Bearer {{auth_token}}
 "vehicleId": "2"
 }
 
-### Get all users
+### Get all users (ADMIN)
 GET {{baseUrl}}/api/users
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Add role
+### Add role (ADMIN)
 POST {{baseUrl}}/api/users/{{kamilId}}/roles/add?
     roleName=ADMIN
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Remove role
+### Remove role (ADMIN)
 POST {{baseUrl}}/api/users/{{kamilId}}/roles/remove?
     roleName=USER
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get all vehicles
+### Get all vehicles (ADMIN)
 GET {{baseUrl}}/api/vehicles
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get vehicle by id
+### Get vehicle by id (ADMIN)
 GET {{baseUrl}}/api/vehicles/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get available vehicles
+### Get available vehicles (USER, ADMIN)
 GET {{baseUrl}}/api/vehicles/available
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get rented vehicles
+### Get rented vehicles (USER, ADMIN)
 GET {{baseUrl}}/api/vehicles/rented
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get user roles
-GET {{baseUrl}}/api/users/api/test-role
+### Get user roles (USER, ADMIN)
+GET {{baseUrl}}/api/users/test-role
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}

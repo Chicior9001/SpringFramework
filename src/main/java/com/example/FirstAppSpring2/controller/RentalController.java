@@ -37,6 +37,14 @@ public class RentalController {
         return rentalService.findAll().stream().filter(rental -> rental.getReturnDate() == null).toList();
     }
 
+    @GetMapping("/rented")
+    public List<Rental> getMyActiveRentals(@AuthenticationPrincipal UserDetails userDetails) {
+        String login = userDetails.getUsername();
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie znaleziony: " + login));
+        return rentalService.findActiveRentalByUserId(user.getId());
+    }
+
     @PostMapping("/rent")
     public ResponseEntity<Rental> rentVehicle(@RequestBody RentalRequest rentalRequest, @AuthenticationPrincipal UserDetails userDetails) {
         String login = userDetails.getUsername();

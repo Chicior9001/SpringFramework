@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,8 +62,9 @@ public class VehicleController {
     @GetMapping("/rented")
     public List<Vehicle> getRentedVehicles(@AuthenticationPrincipal UserDetails userDetails) {
         String login = userDetails.getUsername();
-        Optional<User> user = userService.findByLogin(login);
-        List<Rental> rentals = rentalService.findActiveRentalByUserId(user.get().getId());
+        User user = userService.findByLogin(login)
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie znaleziony: " + login));
+        List<Rental> rentals = rentalService.findActiveRentalByUserId(user.getId());
         return rentals.stream().map(Rental::getVehicle).toList();
     }
 

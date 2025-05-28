@@ -56,7 +56,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/test-role")
+    @GetMapping("/test-role")
     public String testRole(@AuthenticationPrincipal UserDetails userDetails) {
         return "Twoje role: " + userDetails.getAuthorities().toString();
     }
