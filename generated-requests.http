@@ -1,0 +1,118 @@
+### Variables
+@baseUrl = http://localhost:8080
+@contentType = application/json
+@kamilId = f4b5b79b-df2c-4e0a-89fc-464908d2e6dc
+@lukaszId = fc6e600b-e89e-42e2-b2b7-ca18edb68924
+@userId = 49e9de12-d0e0-4fde-82b7-0308e636051c
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "login": "kamil",
+  "password": "kamil123"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "login": "",
+  "password": ""
+}
+
+### Get all rentals (ADMIN)
+GET {{baseUrl}}/api/rentals
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get all active rentals (ADMIN)
+GET {{baseUrl}}/api/rentals/active
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get my active rentals (USER, ADMIN)
+GET {{baseUrl}}/api/rentals/rented
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Rent (USER, ADMIN)
+POST {{baseUrl}}/api/rentals/rent
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+{
+  "vehicleId": "2"
+}
+
+### Return (USER, ADMIN)
+POST {{baseUrl}}/api/rentals/return
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+{
+"vehicleId": "2"
+}
+
+### Get all users (ADMIN)
+GET {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Add role (ADMIN)
+POST {{baseUrl}}/api/users/{{kamilId}}/roles/add?
+    roleName=ADMIN
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Remove role (ADMIN)
+POST {{baseUrl}}/api/users/{{kamilId}}/roles/remove?
+    roleName=USER
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get all vehicles (ADMIN)
+GET {{baseUrl}}/api/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get vehicle by id (ADMIN)
+GET {{baseUrl}}/api/vehicles/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get available vehicles (USER, ADMIN)
+GET {{baseUrl}}/api/vehicles/available
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get rented vehicles (USER, ADMIN)
+GET {{baseUrl}}/api/vehicles/rented
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get user roles (USER, ADMIN)
+GET {{baseUrl}}/api/users/test-role
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get payment link
+POST {{baseUrl}}/api/payments/checkout/dc826305-2be3-4c34-8e35-57b385916321
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{auth_token}}
+
+### Success
+GET {{baseUrl}}/api/payments/success
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Cancel
+GET {{baseUrl}}/api/payments/cancel
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
