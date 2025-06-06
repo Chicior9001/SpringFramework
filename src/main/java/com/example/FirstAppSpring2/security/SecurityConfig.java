@@ -30,7 +30,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/api/rentals/rented").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/api/rentals/rent").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/api/rentals/return").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET,"/api/users/profile").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET,"/api/users/test-role").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("api/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()

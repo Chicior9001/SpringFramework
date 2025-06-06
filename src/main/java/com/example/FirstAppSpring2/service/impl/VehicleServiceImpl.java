@@ -53,7 +53,11 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<Vehicle> findAvailableVehicles() {
-        return vehicleRepository.findByIsActiveTrueAndIdNotIn(rentalRepository.findRentedVehicleIds());
+        Set<String> ids = rentalRepository.findRentedVehicleIds();
+        if(ids.isEmpty()) {
+            return vehicleRepository.findByIsActiveTrue();
+        }
+        return vehicleRepository.findByIsActiveTrueAndIdNotIn(ids);
     }
 
     @Override
