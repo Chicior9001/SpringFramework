@@ -4,6 +4,7 @@
 @kamilId = f4b5b79b-df2c-4e0a-89fc-464908d2e6dc
 @lukaszId = fc6e600b-e89e-42e2-b2b7-ca18edb68924
 @userId = 49e9de12-d0e0-4fde-82b7-0308e636051c
+@user1Id = 7a2391ff-59b1-4c71-8eb8-00f715bed31d
 
 ### Login
 POST {{baseUrl}}/api/auth/login
@@ -23,9 +24,11 @@ POST {{baseUrl}}/api/auth/register
 Content-Type: {{contentType}}
 
 {
-  "login": "",
-  "password": ""
+  "login": "user1",
+  "password": "user1"
 }
+
+# ----------------------------------------------------------
 
 ### Get all rentals (ADMIN)
 GET {{baseUrl}}/api/rentals
@@ -48,7 +51,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
 {
-  "vehicleId": "2"
+  "vehicleId": "1"
 }
 
 ### Return (USER, ADMIN)
@@ -57,8 +60,10 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
 {
-"vehicleId": "2"
+"vehicleId": "1"
 }
+
+# ----------------------------------------------------------
 
 ### Get all users (ADMIN)
 GET {{baseUrl}}/api/users
@@ -67,13 +72,41 @@ Authorization: Bearer {{auth_token}}
 
 ### Add role (ADMIN)
 POST {{baseUrl}}/api/users/{{kamilId}}/roles/add?
-    roleName=ADMIN
+    roleName=ROLE_USER
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
 ### Remove role (ADMIN)
 POST {{baseUrl}}/api/users/{{kamilId}}/roles/remove?
-    roleName=USER
+    roleName=ROLE_USER
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Get user roles (USER, ADMIN)
+GET {{baseUrl}}/api/users/test-role
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+# ----------------------------------------------------------
+
+### Add vehicle (ADMIN)
+POST {{baseUrl}}/api/vehicles
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+{
+  "id": "100",
+  "price": 300,
+  "category": "Car",
+  "brand": "Brand123",
+  "model": "Model123",
+  "year": 2025,
+  "plate": "ABC123",
+  "isActive": true
+}
+
+### Remove vehicle (ADMIN)
+DELETE {{baseUrl}}/api/vehicles/100
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
@@ -97,13 +130,10 @@ GET {{baseUrl}}/api/vehicles/rented
 Content-Type: {{contentType}}
 Authorization: Bearer {{auth_token}}
 
-### Get user roles (USER, ADMIN)
-GET {{baseUrl}}/api/users/test-role
-Content-Type: {{contentType}}
-Authorization: Bearer {{auth_token}}
+# ----------------------------------------------------------
 
 ### Get payment link
-POST {{baseUrl}}/api/payments/checkout/dc826305-2be3-4c34-8e35-57b385916321
+POST {{baseUrl}}/api/payments/checkout/d26a7fbf-d694-4ce2-b1a6-0d009e0bdbf7
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{auth_token}}
 

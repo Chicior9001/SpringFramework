@@ -34,7 +34,7 @@ public class UserController {
             }
 
             userService.addRoleToUser(userId, roleName);
-            return ResponseEntity.ok("Role " + roleName + "has been added to user with ID: " + userId);
+            return ResponseEntity.ok("Role " + roleName + " has been added to user with ID: " + userId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -48,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
                         .setName("Rental " + rentalId)
                         .build();
 
-        var amount = rental.getVehicle().getPrice() * 100;
+        var amount =  calculateRentalPrice(rental);
 
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
@@ -111,9 +112,21 @@ public class PaymentServiceImpl implements PaymentService {
                     payment.setPaidAt(LocalDateTime.now());
                     paymentRepository.save(payment);
                     Rental rental = payment.getRental();
-                    rentalService.returnRental(rental.getId(), rental.getUser().getId());
+                    System.out.println("returning rental " + rental.getId());
+                    rentalService.returnRental(rental.getVehicle().getId(), rental.getUser().getId());
+                    System.out.println("returned rental " + rental.getId() + " time: " + rental.getReturnDate());
                 });
             }
         }
+    }
+
+    private double calculateRentalPrice(Rental rental) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime rentDate = rental.getRentDate();
+        long diff = ChronoUnit.DAYS.between(rentDate, now);
+        if(diff <= 0) {
+            diff = 1;
+        }
+        return (rental.getVehicle().getPrice() * diff) * 100;
     }
 }
