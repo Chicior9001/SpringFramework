@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1",
+    "category": "Bus",
+    "brand": "Volkswagen",
+    "model": "T2",
+    "year": 1985,
+    "plate": "LU123",
+    "attributes": {
+      "seats": 20.0
+    }
+  },
+  {
+    "id": "2",
+    "category": "Motorcycle",
+    "brand": "Honda",
+    "model": "CBR600",
+    "year": 2016,
+    "plate": "LU456",
+    "attributes": {
+      "licence_category": "A",
+      "drive": "chain"
+    }
+  },
+  {
+    "id": "3",
+    "category": "Car",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2024,
+    "plate": "LU789",
+    "attributes": {}
+  },
+  {
+    "id": "933b9d52-a7d0-4591-9b3c-7809a5fd87bf",
+    "category": "Car",
+    "brand": "mark123",
+    "model": "model123",
+    "year": 2024,
+    "plate": "LUB12345",
+    "attributes": {}
+  },
+  {
+    "id": "036c7aaa-536f-4c74-ab43-18b573de0a05",
+    "category": "Car",
+    "brand": "jakaśMarka",
+    "model": "jakiśModel",
+    "year": 2025,
+    "plate": "YESYESYES",
+    "attributes": {
+      "attr1": "value1"
+    }
+  }
+]
