@@ -1,0 +1,147 @@
+### Variables
+@baseUrl = http://localhost:8080
+@contentType = application/json
+@testUserId = 3
+@testBookId = 6
+@testOrderId = 1
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "password": "admin"
+}
+
+> {%
+    client.global.set("auth_token", response.body);
+%}
+
+### Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "login": "user123",
+  "password": "user123"
+}
+
+### Get all users (ADMIN)
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{auth_token}}}
+
+### Remove/ban a user (ADMIN)
+DELETE {{baseUrl}}/api/users/{{testUserId}}
+Authorization: Bearer {{auth_token}}}
+
+### Unban a user (ADMIN)
+POST {{baseUrl}}/api/users/{{testUserId}}
+Authorization: Bearer {{auth_token}}}
+
+### Get user roles (ADMIN, USER)
+GET {{baseUrl}}/api/users/test-role
+Authorization: Bearer {{auth_token}}}
+
+### Give role (ADMIN)
+POST {{baseUrl}}/api/users/{{testUserId}}/roles/add?
+    roleName=ROLE_ADMIN
+Authorization: Bearer {{auth_token}}}
+
+### Remove role (ADMIN)
+POST {{baseUrl}}/api/users/{{testUserId}}/roles/remove?
+    roleName=ROLE_ADMIN
+Authorization: Bearer {{auth_token}}}
+
+# ----------------------------------------------------------
+
+### Get all books (ADMIN, USER)
+GET {{baseUrl}}/api/books
+Authorization: Bearer {{auth_token}}}
+
+### Get a book by id (ADMIN, USER)
+GET {{baseUrl}}/api/books/{{testBookId}}
+Authorization: Bearer {{auth_token}}}
+
+### Add a new book (ADMIN)
+POST {{baseUrl}}/api/books/add
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}}
+
+{
+  "title": "TEST BOOK",
+  "author": "TEST AUTHOR",
+  "description": "TEST TEST TEST",
+  "price": 120.5
+}
+
+### Update a book (ADMIN)
+PUT {{baseUrl}}/api/books/update/{{testBookId}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}}
+
+{
+  "title": "TEST BOOK",
+  "author": "TEST AUTHOR",
+  "description": "TEST TEST TEST",
+  "price": 120.5
+}
+
+### Delete a book (ADMIN)
+DELETE {{baseUrl}}/api/books/{{testBookId}}
+Authorization: Bearer {{auth_token}}}
+
+# ----------------------------------------------------------
+
+### Get cart contents (ADMIN, USER)
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{auth_token}}}
+
+### Add an item to the cart (ADMIN, USER)
+POST {{baseUrl}}/api/cart/add?
+    bookId={{testBookId}}&
+    quantity=1
+Authorization: Bearer {{auth_token}}}
+
+### Remove an item from the cart (ADMIN, USER)
+DELETE {{baseUrl}}/api/cart/remove/8
+Authorization: Bearer {{auth_token}}}
+
+### Clear the cart (ADMIN, USER)
+DELETE {{baseUrl}}/api/cart/clear
+Authorization: Bearer {{auth_token}}}
+
+# ----------------------------------------------------------
+
+### Get my orders (ADMIN, USER)
+GET {{baseUrl}}/api/orders
+Authorization: Bearer {{auth_token}}}
+
+### Get all orders (ADMIN)
+GET {{baseUrl}}/api/orders/admin
+Authorization: Bearer {{auth_token}}}
+
+### Place an order (ADMIN, USER)
+POST {{baseUrl}}/api/orders/place
+Authorization: Bearer {{auth_token}}}
+
+### Update order status (ADMIN)
+PUT {{baseUrl}}/api/orders/admin/{{testOrderId}}/status?
+    status=CANCELLED
+Authorization: Bearer {{auth_token}}}
+
+# ----------------------------------------------------------
+
+### Get payment link (ADMIN, USER)
+POST {{baseUrl}}/api/payments/checkout/1
+Authorization: Bearer {{auth_token}}}
+
+### Success
+GET {{baseUrl}}/api/payments/success
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
+
+### Cancel
+GET {{baseUrl}}/api/payments/cancel
+Content-Type: {{contentType}}
+Authorization: Bearer {{auth_token}}
